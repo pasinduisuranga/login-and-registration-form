@@ -123,7 +123,41 @@ function showSuccessMessage(message) {
     loginForm.classList.add('hidden');
     registerForm.classList.add('hidden');
     successMessage.classList.remove('hidden');
-    document.getElementById('successText').textContent = message;
+    
+    // Update success message
+    const successText = document.getElementById('successText');
+    successText.textContent = message;
+    
+    // Add user avatar if available
+    if (currentUser && currentUser.avatar) {
+        const existingAvatar = document.querySelector('.user-avatar');
+        if (existingAvatar) {
+            existingAvatar.remove();
+        }
+        
+        const avatar = document.createElement('img');
+        avatar.src = currentUser.avatar;
+        avatar.alt = 'User Avatar';
+        avatar.className = 'user-avatar';
+        
+        const welcomeTitle = successMessage.querySelector('h3');
+        welcomeTitle.parentNode.insertBefore(avatar, welcomeTitle);
+    }
+    
+    // Add provider badge if user logged in via social
+    if (currentUser && currentUser.provider) {
+        const existingBadge = document.querySelector('.provider-badge');
+        if (existingBadge) {
+            existingBadge.remove();
+        }
+        
+        const badge = document.createElement('span');
+        badge.className = `provider-badge ${currentUser.provider}`;
+        badge.textContent = currentUser.provider;
+        
+        const welcomeTitle = successMessage.querySelector('h3');
+        welcomeTitle.appendChild(badge);
+    }
 }
 
 // Login handler
@@ -491,6 +525,24 @@ if (users.length === 0) {
             name: 'Jane Smith',
             email: 'jane@example.com',
             password: 'password456',
+            registeredAt: new Date().toISOString()
+        },
+        {
+            id: 3,
+            name: 'Google User',
+            email: 'john.google@gmail.com',
+            password: null,
+            provider: 'google',
+            avatar: 'https://via.placeholder.com/150/4285f4/ffffff?text=G',
+            registeredAt: new Date().toISOString()
+        },
+        {
+            id: 4,
+            name: 'Facebook User',
+            email: 'john.facebook@gmail.com',
+            password: null,
+            provider: 'facebook',
+            avatar: 'https://via.placeholder.com/150/1877f2/ffffff?text=F',
             registeredAt: new Date().toISOString()
         }
     ];
