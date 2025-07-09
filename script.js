@@ -24,6 +24,12 @@ const registerPassword = document.getElementById('registerPassword');
 const confirmPassword = document.getElementById('confirmPassword');
 const agreeTerms = document.getElementById('agreeTerms');
 
+// Social login buttons
+const googleLoginBtn = document.getElementById('googleLogin');
+const facebookLoginBtn = document.getElementById('facebookLogin');
+const googleRegisterBtn = document.getElementById('googleRegister');
+const facebookRegisterBtn = document.getElementById('facebookRegister');
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     // Check if user is already logged in
@@ -63,6 +69,12 @@ function setupEventListeners() {
         e.preventDefault();
         handleForgotPassword();
     });
+    
+    // Social login buttons
+    googleLoginBtn.addEventListener('click', () => handleSocialLogin('google', 'login'));
+    facebookLoginBtn.addEventListener('click', () => handleSocialLogin('facebook', 'login'));
+    googleRegisterBtn.addEventListener('click', () => handleSocialLogin('google', 'register'));
+    facebookRegisterBtn.addEventListener('click', () => handleSocialLogin('facebook', 'register'));
 }
 
 // Real-time validation setup
@@ -228,49 +240,82 @@ function handleForgotPassword() {
     }
 }
 
-// Validation functions
-function validateEmail(email, form) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValid = emailRegex.test(email);
+// Social login handler
+function handleSocialLogin(provider, action) {
+    const button = document.getElementById(provider + (action === 'login' ? 'Login' : 'Register'));
     
-    if (!isValid && email) {
-        showError('Please enter a valid email address.', form);
-        return false;
-    }
+    // Show loading state
+    showSocialLoading(button);
     
-    return true;
+    // Simulate OAuth flow
+    setTimeout(() => {
+        // Generate mock user data based on provider
+        const mockUserData = generateMockSocialUser(provider);
+        
+        // Check if user exists (for login) or create new user (for register)
+        let user = users.find(u => u.email === mockUserData.email);
+        
+        if (action === 'login') {
+            if (user) {
+                // Login successful
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                showSuccessMessage(`Welcome back, ${user.name}!`);
+            } else {
+                // User doesn't exist, suggest registration
+                showError(`No account found with this ${provider} account. Please register first.`, 'login');
+            }
+        } else {
+            // Register action
+            if (user) {
+                // User already exists, log them in
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                showSuccessMessage(`Welcome back, ${user.name}!`);
+            } else {
+                // Create new user
+                const newUser = {
+                    id: Date.now(),
+                    name: mockUserData.name,
+                    email: mockUserData.email,
+                    password: null, // No password for social login
+                    provider: provider,
+                    avatar: mockUserData.avatar,
+                    registeredAt: new Date().toISOString()
+                };
+                
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                // Auto-login after registration
+                currentUser = newUser;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                showSuccessMessage(`Welcome, ${newUser.name}! Your account has been created using ${provider}.`);
+            }
+        }
+        
+        hideSocialLoading(button);
+        clearErrors();
+    }, 2000);
 }
 
-function validatePassword(password, form) {
-    if (password.length < 6) {
-        showError('Password must be at least 6 characters long.', form);
-        return false;
-    }
+// Generate mock social user data
+function generateMockSocialUser(provider) {
+    const mockUsers = {
+        google: {
+            name: 'John Google',
+            email: 'john.google@gmail.com',
+            avatar: 'https://via.placeholder.com/150/4285f4/ffffff?text=G'
+        },
+        facebook: {
+            name: 'John Facebook',
+            email: 'john.facebook@gmail.com',
+            avatar: 'https://via.placeholder.com/150/1877f2/ffffff?text=F'
+        }
+    };
     
-    return true;
-}
-
-function validatePasswordMatch() {
-    const password = registerPassword.value;
-    const confirm = confirmPassword.value;
-    
-    if (confirm && password !== confirm) {
-        confirmPassword.classList.add('error');
-        showError('Passwords do not match.', 'register');
-        return false;
-    }
-    
-    confirmPassword.classList.remove('error');
-    return true;
-}
-
-function validateName(name) {
-    if (name.length < 2) {
-        showError('Name must be at least 2 characters long.', 'register');
-        return false;
-    }
-    
-    return true;
+    return mockUsers[provider] || mockUsers.google;
 }
 
 // Password strength checker
@@ -346,6 +391,22 @@ function hideLoading(button) {
     button.disabled = false;
     button.classList.remove('loading');
     button.textContent = button.closest('#loginFormElement') ? 'Login' : 'Register';
+}
+
+function showSocialLoading(button) {
+    button.disabled = true;
+    button.classList.add('loading');
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
+    button.setAttribute('data-original-text', originalText);
+}
+
+function hideSocialLoading(button) {
+    button.disabled = false;
+    button.classList.remove('loading');
+    const originalText = button.getAttribute('data-original-text');
+    button.innerHTML = originalText;
+    button.removeAttribute('data-original-text');
 }
 
 // Reset forms
