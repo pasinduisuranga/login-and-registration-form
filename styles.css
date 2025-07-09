@@ -273,6 +273,127 @@ h2 {
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
+/* Social Login Styles */
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e1e8ed;
+}
+
+.divider span {
+    padding: 0 15px;
+    color: #999;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.social-btn {
+    width: 100%;
+    padding: 12px 20px;
+    border: 2px solid #e1e8ed;
+    border-radius: 10px;
+    background: white;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.social-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.social-btn:active {
+    transform: translateY(0);
+}
+
+.google-btn {
+    border-color: #db4437;
+    color: #db4437;
+}
+
+.google-btn:hover {
+    background: #db4437;
+    color: white;
+    box-shadow: 0 5px 15px rgba(219, 68, 55, 0.3);
+}
+
+.facebook-btn {
+    border-color: #4267B2;
+    color: #4267B2;
+}
+
+.facebook-btn:hover {
+    background: #4267B2;
+    color: white;
+    box-shadow: 0 5px 15px rgba(66, 103, 178, 0.3);
+}
+
+.social-btn i {
+    font-size: 16px;
+}
+
+/* Social Login Loading Animation */
+.social-btn .fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* User Avatar in Success Message */
+.user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    border: 3px solid #4CAF50;
+    object-fit: cover;
+}
+
+.success-message .provider-badge {
+    background: #f0f0f0;
+    color: #666;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-left: 8px;
+}
+
+.success-message .provider-badge.google {
+    background: #db4437;
+    color: white;
+}
+
+.success-message .provider-badge.facebook {
+    background: #4267B2;
+    color: white;
+}
+
 /* Responsive Design */
 @media (max-width: 480px) {
     .container {
@@ -295,6 +416,15 @@ h2 {
     
     .btn {
         padding: 12px;
+        font-size: 14px;
+    }
+    
+    .social-btn {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+    
+    .social-btn i {
         font-size: 14px;
     }
 }
