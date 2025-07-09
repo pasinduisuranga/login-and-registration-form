@@ -8,11 +8,35 @@
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.4) 0%, transparent 50%);
+    z-index: -1;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .container {
@@ -476,3 +500,188 @@ h2 {
     background: #27ae60;
     width: 100%;
 }
+
+/* Floating Particles Background Effect */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: float 15s infinite linear;
+}
+
+.particle:nth-child(1) {
+    left: 10%;
+    animation-delay: 0s;
+    animation-duration: 20s;
+}
+
+.particle:nth-child(2) {
+    left: 20%;
+    animation-delay: 2s;
+    animation-duration: 18s;
+}
+
+.particle:nth-child(3) {
+    left: 30%;
+    animation-delay: 4s;
+    animation-duration: 22s;
+}
+
+.particle:nth-child(4) {
+    left: 40%;
+    animation-delay: 6s;
+    animation-duration: 16s;
+}
+
+.particle:nth-child(5) {
+    left: 50%;
+    animation-delay: 8s;
+    animation-duration: 24s;
+}
+
+.particle:nth-child(6) {
+    left: 60%;
+    animation-delay: 10s;
+    animation-duration: 19s;
+}
+
+.particle:nth-child(7) {
+    left: 70%;
+    animation-delay: 12s;
+    animation-duration: 21s;
+}
+
+.particle:nth-child(8) {
+    left: 80%;
+    animation-delay: 14s;
+    animation-duration: 17s;
+}
+
+.particle:nth-child(9) {
+    left: 90%;
+    animation-delay: 16s;
+    animation-duration: 23s;
+}
+
+.particle:nth-child(10) {
+    left: 95%;
+    animation-delay: 18s;
+    animation-duration: 20s;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) scale(1);
+        opacity: 0;
+    }
+}
+
+/* Alternative Background Options - Uncomment the one you prefer */
+
+/* Option 1: Geometric Pattern Background */
+/*
+body {
+    font-family: 'Arial', sans-serif;
+    background: #2c3e50;
+    background-image: 
+        linear-gradient(45deg, #3498db 25%, transparent 25%),
+        linear-gradient(-45deg, #3498db 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #3498db 75%),
+        linear-gradient(-45deg, transparent 75%, #3498db 75%);
+    background-size: 60px 60px;
+    background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+    animation: geometricMove 20s linear infinite;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+@keyframes geometricMove {
+    0% { background-position: 0 0, 0 30px, 30px -30px, -30px 0px; }
+    100% { background-position: 60px 60px, 60px 90px, 90px 30px, 30px 60px; }
+}
+*/
+
+/* Option 2: Mesh Gradient Background */
+/*
+body {
+    font-family: 'Arial', sans-serif;
+    background: radial-gradient(circle at 25% 25%, #ff6b6b 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #4ecdc4 0%, transparent 50%),
+                radial-gradient(circle at 75% 25%, #45b7d1 0%, transparent 50%),
+                radial-gradient(circle at 25% 75%, #f9ca24 0%, transparent 50%),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-size: 400% 400%;
+    animation: meshGradient 15s ease infinite;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+@keyframes meshGradient {
+    0%, 100% { background-position: 0% 50%, 100% 50%, 50% 0%, 50% 100%; }
+    25% { background-position: 100% 50%, 0% 50%, 50% 100%, 50% 0%; }
+    50% { background-position: 50% 100%, 50% 0%, 100% 50%, 0% 50%; }
+    75% { background-position: 0% 50%, 100% 50%, 50% 0%, 50% 100%; }
+}
+*/
+
+/* Option 3: Animated Waves Background */
+/*
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: 
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    animation: wave 20s linear infinite;
+    z-index: -1;
+}
+
+@keyframes wave {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+*/
